@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портфолио | Никита Шебалин</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="#home">Главная</a>
+            <div class="dropdown">
+                <a href="#games" class="dropbtn">Мини-игры <i class="fa fa-caret-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="#games" onclick="showGame('rpg-todo')">⚔️ RPG Квесты</a>
+                    <a href="#games" onclick="showGame('clicker')">Кликер</a>
+                    <a href="#games" onclick="showGame('generator')">Генератор</a>
+                    <a href="#games" onclick="showGame('guess')">Угадай число</a>
+                    <a href="#games" onclick="showGame('reaction')">Реакция</a>
+                    <a href="#games" onclick="showGame('tictactoe')">Крестики-нолики</a>
+                    <a href="#games" onclick="showGame('maze')">Лабиринт</a>
+                </div>
+            </div>
+            <a href="#skills">Навыки</a>
+            <a href="#contacts">Связь</a>
+        </div>
+    </nav>
+
+    <main>
+        <section id="home" class="hero">
+            <img src="https://ui-avatars.com/api/?name=Nikita+Shebalin&background=8b5cf6&color=fff" alt="Никита Шебалин">
+            <h1>Привет, я <span class="name-highlight">Никита Шебалин</span></h1>
+            <p>Будущий программист из Павлодара.</p>
+        </section>
+
+        <section id="games">
+            <h2 style="text-align: center;">Игровой зал</h2>
+
+            <div id="rpg-todo" class="game-container" style="display:none;">
+                <h3>⚔️ RPG Quest Log</h3>
+                <div class="char-card">
+                    <h4 id="display-name">Загрузка...</h4>
+                    <p>Уровень: <span id="char-level">1</span></p>
+                    <div class="bar"><div id="xp-fill" class="fill"></div></div>
+                    <p style="font-size: 0.8rem;"><span id="current-xp">0</span> / <span id="next-level-xp">100</span> XP</p>
+                    <p>Пройдено квестов: <span id="stat-count">0</span></p>
+                </div>
+
+                <div class="quest-inputs">
+                    <input type="text" id="task-name" placeholder="Название задачи...">
+                    <textarea id="task-desc" placeholder="Описание..."></textarea>
+                    <div style="margin: 10px 0; color: #cbd5e1; font-size: 0.9rem;">
+                        Сложность: 
+                        <label><input type="radio" name="diff" value="10" checked> Легко</label>
+                        <label><input type="radio" name="diff" value="30"> Средне</label>
+                        <label><input type="radio" name="diff" value="50"> Сложно</label>
+                    </div>
+                    <button onclick="addNewTask()" class="btn">Добавить квест</button>
+                </div>
+
+                <div id="active-tasks-list"></div>
+                <hr style="opacity: 0.1; margin: 20px 0;">
+                <div id="completed-tasks-list"></div>
+                <button onclick="resetRPG()" class="btn btn-reset">Сбросить героя</button>
+            </div>
+            
+            <div id="clicker" class="game-container">
+                <h3>Кликер</h3>
+                <p>Счет: <span id="score">0</span> | Рекорд: <span id="high-score">0</span></p>
+                <p>Время: <span id="timer">30</span></p>
+                <button id="click-btn" class="btn btn-main-click">КЛИК!</button>
+                <button onclick="resetClicker()" class="btn btn-reset">Сброс</button>
+            </div>
+
+            <div id="generator" class="game-container" style="display:none;">
+                <h3>Генератор приключений 🏰</h3>
+                <div class="current-adventure">
+                    <p id="adventure-text">Нажмите кнопку ниже...</p>
+                </div>
+                <button onclick="generateAdventure()" class="btn">Сгенерировать</button>
+                <button onclick="clearAdventureHistory()" class="btn btn-reset">Очистить историю</button>
+                <div id="adventure-history-list" style="margin-top: 20px; text-align: left;"></div>
+            </div>
+
+            <div id="guess" class="game-container" style="display:none;">
+                <h3>Угадай число (1-100)</h3>
+                <p>Попыток: <span id="attempts">10</span></p>
+                <input type="number" id="guess-input" placeholder="?">
+                <button onclick="checkGuess()" class="btn">Проверить</button>
+                <p id="guess-message"></p>
+                <button onclick="resetGuessGame()" class="btn btn-reset">Заново</button>
+            </div>
+
+            <div id="reaction" class="game-container" style="display:none;">
+                <h3>Тест реакции</h3>
+                <p>Нажатий: <span id="react-score">0</span> | Время: <span id="react-timer">30</span></p>
+                <div id="reaction-area">
+                    <button id="target" class="btn" style="display:none; position: absolute; padding: 10px;">ЖМИ!</button>
+                    <p id="react-hint" style="padding-top: 130px;">Нажми "Старт"!</p>
+                </div>
+                <button onclick="startReactionGame()" class="btn">Старт</button>
+            </div>
+
+            <div id="tictactoe" class="game-container" style="display:none;">
+                <h3>Крестики-нолики</h3>
+                <p id="ttt-status">Игрок: 0 | Бот: 0</p>
+                <div class="ttt-grid">
+                    <div class="cell" onclick="makeMove(0)"></div>
+                    <div class="cell" onclick="makeMove(1)"></div>
+                    <div class="cell" onclick="makeMove(2)"></div>
+                    <div class="cell" onclick="makeMove(3)"></div>
+                    <div class="cell" onclick="makeMove(4)"></div>
+                    <div class="cell" onclick="makeMove(5)"></div>
+                    <div class="cell" onclick="makeMove(6)"></div>
+                    <div class="cell" onclick="makeMove(7)"></div>
+                    <div class="cell" onclick="makeMove(8)"></div>
+                </div>
+                <button onclick="resetTTT()" class="btn btn-reset">Очистить поле</button>
+            </div>
+
+            <div id="maze" class="game-container" style="display:none;">
+                <h3>Лабиринт 🧭</h3>
+                <p>Таймер: <span id="maze-timer">0</span> сек.</p>
+                <div id="maze-container"></div>
+                <button onclick="initMaze()" class="btn">Перезагрузить</button>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2>Навыки</h2>
+            <div class="skill-item"><span>HTML/CSS</span><div class="bar"><div class="fill" style="width: 85%;"></div></div></div>
+            <div class="skill-item"><span>JavaScript</span><div class="bar"><div class="fill" style="width: 60%;"></div></div></div>
+        </section>
+
+        <section id="contacts">
+            <h2>Связь</h2>
+            <form id="contactForm">
+                <input type="text" placeholder="Имя" required>
+                <input type="email" placeholder="Email" required>
+                <textarea placeholder="Сообщение" required></textarea>
+                <button type="submit" class="btn">Отправить</button>
+            </form>
+        </section>
+    </main>
+
+    <footer><p>© Никита Шебалин 2026</p></footer>
+    <script src="script.js"></script>
+</body>
+</html>
